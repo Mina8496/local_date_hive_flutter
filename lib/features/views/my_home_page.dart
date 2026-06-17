@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:local_date_hive_flutter/core/constant/caching_keys.dart';
+import 'package:local_date_hive_flutter/features/models/person.dart';
 
 class MyHomePage extends StatelessWidget {
   late Box box;
@@ -16,38 +17,31 @@ class MyHomePage extends StatelessWidget {
               onPressed: () async {
                 box = await Hive.openBox(CachingKeys.userBox);
               },
-              child: Text("Hive Open Box"),
+              child: Text("Hive Box Open"),
             ),
           ),
           SizedBox(height: 50),
           ElevatedButton(
             onPressed: () {
-              box.put(CachingKeys.cachingString, "testString");
+              Person person = Person(
+                name: "mina",
+                age: 25,
+                friends: [
+                  Person(name: "ali", age: 26, friends: [], salary: 4000),
+                ],
+                salary: 5000,
+              );
+              box.put(CachingKeys.cachingperson, person);
             },
-            child: Text("Hive Open Box"),
+            child: Text("Hive Open"),
           ),
           SizedBox(height: 50),
           ElevatedButton(
             onPressed: () {
-              String? myString = box.get(CachingKeys.cachingString);
-              int? number = box.get(CachingKeys.cachingInt);
-              double? dnumber = box.get(CachingKeys.cachingDouble);
-              print(myString);
-              print(number);
-              print(dnumber);
+              Person? p = box.get(CachingKeys.cachingperson);
+              print(p?.friends.first.name);
             },
             child: Text("retrive data"),
-          ),
-          SizedBox(height: 50),
-          ElevatedButton(
-            onPressed: () {
-              box.putAll({
-                CachingKeys.cachingString: "default",
-                CachingKeys.cachingInt: 20,
-                CachingKeys.cachingDouble: 2.5,
-              });
-            },
-            child: Text("update data"),
           ),
         ],
       ),
