@@ -29,15 +29,23 @@ class MyHomePage extends StatelessWidget {
           SizedBox(height: 50),
           ElevatedButton(
             onPressed: () {
-              String myString = box.get(CachingKeys.cachingString);
+              String? myString = box.get(CachingKeys.cachingString);
+              int? number = box.get(CachingKeys.cachingInt);
+              double? dnumber = box.get(CachingKeys.cachingDouble);
               print(myString);
+              print(number);
+              print(dnumber);
             },
             child: Text("retrive data"),
           ),
           SizedBox(height: 50),
           ElevatedButton(
             onPressed: () {
-              box.put(CachingKeys.cachingString, "udate String");
+              box.putAll({
+                CachingKeys.cachingString: "default",
+                CachingKeys.cachingInt: 20,
+                CachingKeys.cachingDouble: 2.5,
+              });
             },
             child: Text("update data"),
           ),
